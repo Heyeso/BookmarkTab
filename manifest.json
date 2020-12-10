@@ -1,0 +1,16 @@
+{
+	"manifest_version": 2,
+  "short_name": "Bookmark",
+  "name": "Bookmark Tab",
+  "version": "1.0.0",
+  "description": "",
+  "icons": {
+      "128": "images/chromeBookmarkIcon-16x16.png",
+      "48": "images/chromeBookmarkIcon-48x48.png",
+      "16": "images/chromeBookmarkIcon-128x128.png"
+    },
+  "browser_action": {
+    "default_icon": "images/chromeBookmarkIcon-144x144.png",
+    "default_popup": "popup.html"
+  }
+}
