@@ -34,12 +34,12 @@ $(document).ready(()=>{
             let newItem = `
             <div class=${"item"} >
                 <img src=${val.icon} alt="Logo">
-                <a class=${"info"} href=${val.urlLink} target=${"_blank"} rel=${"noopener noreferrer"}>
+                <a  class=${"info"} href=${val.urlLink} target=${"_blank"} rel="${"noopener noreferrer"}">
                     
-                    <p class=${"name"}>${namestr}</p>
+                    <p title="${val.name}" class=${"name"}>${namestr}</p>
                     <p class="link">${tabURLstr}</p>
                 </a>
-                <button class=${"delete"} title=${"delete"}>Delete</button>
+                <button class=${"delete"} title=${"delete"}><i class="far fa-trash-alt"></i></button>
             </a>
             `;
             $(".items").append(newItem);
@@ -47,6 +47,31 @@ $(document).ready(()=>{
         
     }
     renderItems();
+
+    let renderItem = (val) => {
+        let tabURLstr, namestr;
+        if(val.urlLink.length > 40)
+            tabURLstr = val.urlLink.substring(0, 36) + "...";
+        else
+            tabURLstr = val.urlLink
+        if(val.name.length > 25)
+            namestr = val.name.substring(0, 23) + "...";
+        else
+            namestr = val.name
+
+        let newItem = `
+        <div class=${"item"} >
+            <img src=${val.icon} alt="Logo">
+            <a  class=${"info"} href=${val.urlLink} target=${"_blank"} rel="${"noopener noreferrer"}">
+                
+                <p title="${val.name}" class=${"name"}>${namestr}</p>
+                <p class="link">${tabURLstr}</p>
+            </a>
+            <button class=${"delete"} title=${"delete"}><i class="far fa-trash-alt"></i></button>
+        </a>
+        `;
+        $(".items").append(newItem);
+    }
 
 
 
@@ -80,9 +105,9 @@ $(document).ready(()=>{
         if(notContain) {
             // add new item and rerender if no duplicate
             db.push(newItem)
-            // rerender
-            $(".items").empty()
-            renderItems();
+            // render single item in
+            renderItem(newItem);
+            
         } 
         else
             console.log("item Exists")
@@ -93,7 +118,11 @@ $(document).ready(()=>{
     $("body").delegate(".item .delete", "click", function(element) {
         // get item to delete
         let itemUrl = $(element.currentTarget).parent().children("a").attr("href");
-            
+        $(element.currentTarget).parent().remove()
+
+        
+
+
         // remove from database
         for (let val of db) {
             if(val.urlLink === itemUrl) {
@@ -102,9 +131,6 @@ $(document).ready(()=>{
             }
         }
 
-        // rerender list
-        $(".items").empty()
-        renderItems();
     })
 
 
