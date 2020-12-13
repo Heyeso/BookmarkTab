@@ -13,15 +13,11 @@
     "default_icon": "images/chromeBookmarkIcon-144x144.png",
     "default_popup": "popup.html"
   },
-  "background": {
-    "scripts": [""],
-    "persistent" : "false"
-  },
+
   "content_security_policy": "script-src 'self' 'sha256-vvt4KWwuNr51XfE5m+hzeNEGhiOfZzG97ccfqGsPwvE='; object-src 'self'",
   "permissions" : [
     "storage",
-    "tab",
-    "notifications",
-    "contextMenu"
+    "tabs",
+    "<all_urls>"
   ]
 }

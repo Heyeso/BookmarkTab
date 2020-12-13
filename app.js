@@ -1,25 +1,27 @@
+$(".message").fadeOut(0)
 $(document).ready(()=>{
 
-    // temporary
-    let db = [
-        {
-            icon: "",
-            name: "Goolge",
-            urlLink: "https://www.google.com/search?rlz=1C1CHBF_enUS869US869&sxsrf=ALeKk01xamgRPwfhtlE8PZfGj2iaDHywyQ:1607813609415&q=foolish&spell=1&sa=X&ved=2ahUKEwicibe4xMntAhWP2FkKHSvFDjQQBSgAegQICBAw&biw=1920&bih=969"
-        },
-        {
-            icon: "",
-            name: "Font Awesome",
-            urlLink: "https://fontawesome.com/"
-        },
-        {
-            icon: "",
-            name: "Google Fonts",
-            urlLink: "https://fonts.google.com/specimen/Open+Sans?preview.text=Google&preview.text_type=custom&sidebar.open=true&selection.family=Open+Sans:wght@300;400;600"
-        }
-    ]
-    
-    let renderItems = () => {
+    // default storage.
+    let initialStorage = () => {
+        let intialList = [
+            {
+                icon: "images/googleIcon.png",
+                name: "Goolge",
+                urlLink: "https://www.google.com/"
+            }
+        ]
+        chrome.storage.local.get('tabList', (element)=> {
+            if(typeof element.tabList === "undefined")
+                chrome.storage.local.set({"tabList": intialList}, (el) => {
+                    renderItems(intialList);
+                })
+            else
+                renderItems(element.tabList);
+        })
+    }
+    initialStorage();
+
+    let renderItems = (db) => {
         db.forEach((val) => {
             let tabURLstr, namestr;
             if(val.urlLink.length > 40)
@@ -46,7 +48,6 @@ $(document).ready(()=>{
         })
         
     }
-    renderItems();
 
     let renderItem = (val) => {
         let tabURLstr, namestr;
@@ -79,39 +80,55 @@ $(document).ready(()=>{
     // add tab to list
     $("body").delegate(".add button", "click", function() {
 
-        // Temporary
-        let tabName = "Youtube | EXTREME Aged Meat BBQ!! Have We Gone Too Far??",
-         tabURL = "https://www.youtube.com/watch?v=x9ulDGh20BE",
-         tabIcon = "";
-        
-        let input = $(".add input").val()
-            if(input !== "") {
-                tabName = input
-        }
+        chrome.tabs.query({ active: true, currentWindow: true }, function (tab) {
 
-        let newItem = {
-            icon: tabIcon,
-            name: tabName,
-            urlLink: tabURL
-        }
-        let notContain = true;
-        for (let val of db) {
-            if(val.urlLink === newItem.urlLink) {
-                notContain = false;
-                break;
-            }
-        }
-        // confirm no duplicate
-        if(notContain) {
-            // add new item and rerender if no duplicate
-            db.push(newItem)
-            // render single item in
-            renderItem(newItem);
-            
-        } 
-        else
-            console.log("item Exists")
+            let tabName = tab[0].title,
+            tabURL = tab[0].url,
+            tabIcon = tab[0].favIconUrl;
         
+
+            let input = $(".add input").val()
+                if(input !== "") {
+                    tabName = input
+            }
+
+            chrome.storage.local.get('tabList', (element)=> {
+                let db = element.tabList;
+                console.log(db)
+                
+                let newItem = {
+                    icon: tabIcon,
+                    name: tabName,
+                    urlLink: tabURL
+                }
+                let notContain = true;
+                for (let val of db) {
+                    if(val.urlLink === newItem.urlLink) {
+                        notContain = false;
+                        break;
+                    }
+                }
+                // confirm no duplicate
+                if(notContain) {
+                    // add new item and rerender if no duplicate
+                    db.push(newItem)
+                    chrome.storage.local.set({"tabList": db})
+                    // render single item in
+                    renderItem(newItem);
+                    
+                } 
+                else {
+                    $(".message").fadeIn(500)
+                    setTimeout(()=> {
+                        $(".message").fadeOut(500)
+                    }, 2000)
+                }
+                    
+
+                $(".add input").val("")  
+            })
+
+        });     
     })
 
     // delete tab from list
@@ -120,16 +137,18 @@ $(document).ready(()=>{
         let itemUrl = $(element.currentTarget).parent().children("a").attr("href");
         $(element.currentTarget).parent().remove()
 
-        
-
-
-        // remove from database
-        for (let val of db) {
-            if(val.urlLink === itemUrl) {
-                db.splice(db.indexOf(val), 1)
-                break;
+        chrome.storage.local.get('tabList', (el) => {
+            let db = el.tabList;
+            // remove from database
+            for (let val of db) {
+                if(val.urlLink === itemUrl) {
+                    db.splice(db.indexOf(val), 1)
+                    chrome.storage.local.set({"tabList": db})
+                    break;
+                }
             }
-        }
+        });
+
 
     })
 
