@@ -86,6 +86,8 @@ $(document).ready(()=>{
             tabURL = tab[0].url,
             tabIcon = tab[0].favIconUrl;
         
+            if(tabIcon === "")
+                tabIcon = "images/defaultIcon.jpg"
 
             let input = $(".add input").val()
                 if(input !== "") {
