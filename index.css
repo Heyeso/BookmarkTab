@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap");
 
 html,
 body {
@@ -19,7 +19,6 @@ body {
   grid-auto-rows: 10% 10% 75% 5%;
 }
 
-
 .contain .logo {
   opacity: 0.7;
   width: 55%;
@@ -37,6 +36,7 @@ input:focus {
   padding: 3px;
 }
 .contain .add button {
+  cursor: pointer;
   font-size: 17.6px;
   width: 15%;
   border: none;
@@ -50,10 +50,9 @@ input:focus {
   transition: all 0.3s ease-out;
 }
 .contain .add input {
-  font-family: 'Comfortaa', cursive;
+  font-family: 'Open Sans', sans-serif;
   -webkit-box-shadow: inset 0 0 10px #00000031;
   box-shadow: inset 0 0 10px #00000031;
-  border-radius: 7px;
   color: rgba(255, 255, 255, 0.678);
   width: 85%;
   background-color: rgba(121, 115, 115, 0);
@@ -62,11 +61,11 @@ input:focus {
   margin: 5px;
 }
 
-.contain .items  {
+.contain .items {
   padding: 2px;
   overflow: hidden;
   overflow-y: auto;
-  
+
   display: grid;
   grid-template-columns: 1fr;
   grid-auto-rows: 52px;
@@ -83,37 +82,42 @@ input:focus {
 }
 /* Handle */
 .contain .items::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.37);
+  background: rgba(255, 255, 255, 0.37);
 }
 /* Handle on hover */
 .contain .items::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.747);
+  background: rgba(255, 255, 255, 0.747);
 }
 .contain .items .item {
-  color: rgba(255, 255, 255, 0.685);
-  text-decoration: none;
-  cursor: pointer;
   width: 100%;
   display: flex;
   align-items: center;
-  transition: all 0.2s ease-out;
+  animation: fadein 0.3s ease-out;
+  transition: background-color 0.3s ease-out;
+}
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 .contain .items .item:hover {
   box-sizing: border-box;
-  padding: 5px 10px;
-  border-radius: 7px;
-  cursor: pointer;
-  -webkit-box-shadow: inset 0 0 10px #00000030;
-  box-shadow: inset 0 0 10px #00000030;
-  transition: all 0.2s ease-out;
+  background-color: #00000048;
+  transition: all 0.3s ease-out;
 }
-.contain .items .item img{
+.contain .items .item img {
   margin: 5px;
   justify-self: start;
   width: 30px;
   height: 30px;
 }
-.contain .items .item .info{
+.contain .items .item .info {
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.685);
+  text-decoration: none;
   padding: 5px;
   justify-self: center;
   width: 80%;
@@ -121,7 +125,7 @@ input:focus {
   flex-direction: column;
 }
 .contain .items .item .info p {
-  font-family: 'Comfortaa', cursive;
+  font-family: "Open Sans", sans-serif;
   margin: 0;
 }
 .contain .items .item .info p:nth-child(1) {
@@ -130,7 +134,11 @@ input:focus {
 .contain .items .item .info p:nth-child(2) {
   font-size: 11.2px;
 }
-.contain .items .item button{
+.contain .items .item:hover .info p:nth-child(2) {
+  text-decoration: underline;
+}
+.contain .items .item button {
+  cursor: pointer;
   font-size: 16px;
   opacity: 0;
   color: rgba(255, 73, 73, 0.568);
@@ -140,6 +148,7 @@ input:focus {
   justify-self: end;
   border: none;
   width: 20%;
+  z-index: 100;
 }
 .contain .items .item button:hover {
   color: rgb(255, 73, 73);
@@ -153,34 +162,18 @@ input:focus {
   display: flex;
   align-items: center;
 }
-.contain .contact-info .name{
+.contain .contact-info .name {
   font-size: 11.2px;
   margin: 0 10px;
   margin-left: auto;
 }
-.contain .contact-info .social{
+.contain .contact-info .social {
   justify-self: start;
   margin: 0 10px;
 }
-.contain .contact-info .social i{
+.contain .contact-info .social i {
   margin: 0 5px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .hidden {
   display: none !important;

@@ -5,12 +5,23 @@
   "version": "1.0.0",
   "description": "",
   "icons": {
-      "128": "images/chromeBookmarkIcon-16x16.png",
+      "16": "images/chromeBookmarkIcon-16x16.png",
       "48": "images/chromeBookmarkIcon-48x48.png",
-      "16": "images/chromeBookmarkIcon-128x128.png"
+      "128": "images/chromeBookmarkIcon-128x128.png"
     },
   "browser_action": {
     "default_icon": "images/chromeBookmarkIcon-144x144.png",
     "default_popup": "popup.html"
-  }
+  },
+  "background": {
+    "scripts": [""],
+    "persistent" : "false"
+  },
+  "content_security_policy": "script-src 'self' 'sha256-vvt4KWwuNr51XfE5m+hzeNEGhiOfZzG97ccfqGsPwvE='; object-src 'self'",
+  "permissions" : [
+    "storage",
+    "tab",
+    "notifications",
+    "contextMenu"
+  ]
 }
