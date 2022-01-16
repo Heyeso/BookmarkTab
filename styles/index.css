@@ -1,9 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap");
-
 html,
 body {
-  height: 545px;
-  width: 348px;
+  height: 600px;
+  width: 400px;
   margin: 0;
   position: relative;
   scroll-behavior: smooth;
