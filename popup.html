@@ -8,9 +8,10 @@
     <!-- JQuery -->
     <script type="text/javascript" src="scripts/jquery.js"></script>
 
+    <link rel="manifest" href="manifest.json">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,500;0,600;1,400&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap"
         rel="stylesheet">
     <!-- my css files -->
     <link rel="stylesheet" href="styles/index.css">
@@ -23,7 +24,7 @@
     <div class="container">
         <section class="content">
             <div class="search-comp">
-                <input id="input" type="text" placeholder="Search for tab..." autocomplete="off">
+                <input id="input" type="text" placeholder="Search / Rename..." autocomplete="off">
                 <div id="search-icon" class="icon">
                     <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -44,30 +45,8 @@
             </div>
         </section>
         <section id="tab-container">
-            <div class="tab">
-                <img class="logo" alt="logo icon" src="/assets/defaultIcon.jpg">
-                <div class="body">
-                    <h3 class="title">CSS Generator</h3>
-                    <a class="url">https://cssgenerator.org/box-shadow-css-generator.html</a>
-                </div>
-                <div class="icon delete">
-                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11 14H13H29" stroke="#EB5757" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                        <path
-                            d="M16 14V12C16 11.4696 16.2107 10.9609 16.5858 10.5858C16.9609 10.2107 17.4696 10 18 10H22C22.5304 10 23.0391 10.2107 23.4142 10.5858C23.7893 10.9609 24 11.4696 24 12V14M27 14V28C27 28.5304 26.7893 29.0391 26.4142 29.4142C26.0391 29.7893 25.5304 30 25 30H15C14.4696 30 13.9609 29.7893 13.5858 29.4142C13.2107 29.0391 13 28.5304 13 28V14H27Z"
-                            stroke="#EB5757" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M18 19V25" stroke="#EB5757" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                        <path d="M22 19V25" stroke="#EB5757" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                    </svg>
-
-                </div>
-            </div>
 
         </section>
-        <div id="notification">Tab Bookmarked!</div>
     </div>
     <div id="loading">
 

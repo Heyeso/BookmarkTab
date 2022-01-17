@@ -1,160 +1,139 @@
-$(".message").fadeOut(0)
-$(document).ready(()=>{
+//Format long strings to fit Tab Element Width
+const FormatLongStringURL = (str) =>
+str.length > 55
+    ? str.substring(0, 53) + "..."
+    : str;
 
-    // default storage.
-    let initialStorage = () => {
-        let intialList = [
-            {
-                icon: "images/googleIcon.png",
-                name: "Goolge",
-                urlLink: "https://www.google.com/"
-            }
-        ]
-        chrome.storage.local.get('tabList', (element)=> {
-            if(typeof element.tabList === "undefined")
-                chrome.storage.local.set({"tabList": intialList}, (el) => {
-                    renderItems(intialList);
-                })
-            else
-                renderItems(element.tabList);
-        })
-    }
-    initialStorage();
+const FormatLongString = (str) =>
+str.length > 40
+    ? str.substring(0, 36) + "..."
+    : str;
 
-    let renderItems = (db) => {
-        db.forEach((val) => {
-            let tabURLstr, namestr;
-            if(val.urlLink.length > 40)
-                tabURLstr = val.urlLink.substring(0, 36) + "...";
-            else
-                tabURLstr = val.urlLink
-            if(val.name.length > 25)
-                namestr = val.name.substring(0, 23) + "...";
-            else
-                namestr = val.name
+//Default Tab item for empty list
+const DEFAULT_TAB_ITEM = {
+  icon: "https://myportfolio-e35e6.web.app/images/iconLogo.png",
+  name: "Abdulsalam | Portfolio",
+  urlLink: "https://myportfolio-e35e6.web.app/",
+};
 
-            let newItem = `
-            <div class=${"item"} >
-                <img src=${val.icon} alt="Logo">
-                <a  class=${"info"} href=${val.urlLink} target=${"_blank"} rel="${"noopener noreferrer"}">
-                    
-                    <p title="${val.name}" class=${"name"}>${namestr}</p>
-                    <p class="link">${tabURLstr}</p>
-                </a>
-                <button class=${"delete"} title=${"delete"}><i class="far fa-trash-alt"></i></button>
-            </a>
-            `;
-            $(".items").append(newItem);
-        })
-        
-    }
+// Break Line Element between Items
+const BREAK_LINE = `<div class="${"break"}"></div>`;
 
-    let renderItem = (val) => {
-        let tabURLstr, namestr;
-        if(val.urlLink.length > 40)
-            tabURLstr = val.urlLink.substring(0, 36) + "...";
-        else
-            tabURLstr = val.urlLink
-        if(val.name.length > 25)
-            namestr = val.name.substring(0, 23) + "...";
-        else
-            namestr = val.name
+// new Tab Item Element
+const TAB_ITEM = (icon, name, urlLink) => `
+<div class="${"tab"}">
+    <img class="${"logo"}" alt="${"logo icon"}" src="${
+  icon ? icon : "assets/placeholder.svg"
+}">
+    <div class="${"body"}">
+        <h3 class="${"title"}" title="${name}">${FormatLongString(name)}</h3>
+        <a target="${"_blank"}" rel="${"noopener noreferrer"}" class="${"url"}" href="${urlLink}" title="${urlLink}" >${FormatLongStringURL(
+  urlLink
+)}</a>
+    </div>
+    <div class="${"icon delete"}">
+        <img class="${"icon"}" alt="${"delete icon"}" src="${"/assets/delete.icon.svg"}">
+    </div>
+</div>
+`;
 
-        let newItem = `
-        <div class=${"item"} >
-            <img src=${val.icon} alt="Logo">
-            <a  class=${"info"} href=${val.urlLink} target=${"_blank"} rel="${"noopener noreferrer"}">
-                
-                <p title="${val.name}" class=${"name"}>${namestr}</p>
-                <p class="link">${tabURLstr}</p>
-            </a>
-            <button class=${"delete"} title=${"delete"}><i class="far fa-trash-alt"></i></button>
-        </a>
-        `;
-        $(".items").append(newItem);
-    }
+//Render tab items stored in chrome storage.
+const RENDER_ALL_ITEMS = (db, index) => {
+  db.forEach((val) => {
+    $("#tab-container").append(TAB_ITEM(val.icon, val.name, val.urlLink));
+    if (index < db.length - 1) $("#tab-container").append(BREAK_LINE);
+  });
+};
 
+// Get stored/bookmarked tabs from Chrome Storage.
+const GET_STORAGE_ITEMS = () => {
+  chrome.storage.local.get("TAB_LIST", (element) => {
+    if (typeof element.TAB_LIST === "undefined")
+      chrome.storage.local.set({ TAB_LIST: [DEFAULT_TAB_ITEM] }, (el) => {
+        RENDER_ALL_ITEMS([DEFAULT_TAB_ITEM]);
+      });
+    else RENDER_ALL_ITEMS(element.TAB_LIST);
+  });
+};
 
+// Render a single item
+let RENDER_ITEM = (val) => {
+  $("#tab-container").append(TAB_ITEM(val.icon, val.name, val.urlLink));
+};
 
+$(document).ready(() => {
+  GET_STORAGE_ITEMS();
 
-    // add tab to list
-    $("body").delegate(".add button", "click", function() {
+  // add tab to list
+  $("body").delegate("#add-icon", "click", () => {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tab) {
+      let tabName = tab[0].title,
+        tabURL = tab[0].url,
+        tabIcon = tab[0].favIconUrl;
 
-        chrome.tabs.query({ active: true, currentWindow: true }, function (tab) {
+      // Check if Tab has Icon
+      if (tabIcon === "") tabIcon = "assets/placeholder.svg";
 
-            let tabName = tab[0].title,
-            tabURL = tab[0].url,
-            tabIcon = tab[0].favIconUrl;
-        
-            if(tabIcon === "")
-                tabIcon = "images/defaultIcon.jpg"
+      //Set Bookmark tab name
+      let input = $("#input").val();
+      if (input !== "") {
+        tabName = input;
+      }
 
-            let input = $(".add input").val()
-                if(input !== "") {
-                    tabName = input
-            }
+      //Add new Tab to Storage
+      chrome.storage.local.get("TAB_LIST", (element) => {
+        let db = element.TAB_LIST;
 
-            chrome.storage.local.get('tabList', (element)=> {
-                let db = element.tabList;
-                console.log(db)
-                
-                let newItem = {
-                    icon: tabIcon,
-                    name: tabName,
-                    urlLink: tabURL
-                }
-                let notContain = true;
-                for (let val of db) {
-                    if(val.urlLink === newItem.urlLink) {
-                        notContain = false;
-                        break;
-                    }
-                }
-                // confirm no duplicate
-                if(notContain) {
-                    // add new item and rerender if no duplicate
-                    db.push(newItem)
-                    chrome.storage.local.set({"tabList": db})
-                    // render single item in
-                    renderItem(newItem);
-                    
-                } 
-                else {
-                    $(".message").fadeIn(500)
-                    setTimeout(()=> {
-                        $(".message").fadeOut(500)
-                    }, 2000)
-                }
-                    
+        let newItem = {
+          icon: tabIcon,
+          name: tabName,
+          urlLink: tabURL,
+        };
+        let notContain = true;
+        for (let val of db) {
+          if (val.urlLink === newItem.urlLink) {
+            notContain = false;
+            break;
+          }
+        }
+        // confirm no duplicate
+        if (notContain && newItem.urlLink.includes("http")) {
+          // add new item and rerender if no duplicate
+          db.push(newItem);
+          chrome.storage.local.set({ TAB_LIST: db });
+          // render single item in
+          RENDER_ITEM(newItem);
+        }
 
-                $(".add input").val("")  
-            })
+        //Clear Input
+        $("#input").val("");
+      });
+    });
+  });
 
-        });     
-    })
+  // delete tab from list
+  $("body").delegate(".icon.delete", "click", function (element) {
+    // get item to delete
+    let itemUrl = $(element.currentTarget)
+      .parent()
+      .children("div.body")
+      .children("a.url")
+      .attr("href");
+    $(element.currentTarget).parent().remove();
 
-    // delete tab from list
-    $("body").delegate(".item .delete", "click", function(element) {
-        // get item to delete
-        let itemUrl = $(element.currentTarget).parent().children("a").attr("href");
-        $(element.currentTarget).parent().remove()
-
-        chrome.storage.local.get('tabList', (el) => {
-            let db = el.tabList;
-            // remove from database
-            for (let val of db) {
-                if(val.urlLink === itemUrl) {
-                    db.splice(db.indexOf(val), 1)
-                    chrome.storage.local.set({"tabList": db})
-                    break;
-                }
-            }
-        });
-
-
-    })
-
-
-    // context menu that can add page to bookmark without openinig popup on right click
-    // notification when this is added
-})
+    chrome.storage.local.get("TAB_LIST", (el) => {
+      let db = el.TAB_LIST;
+      // remove from database
+      let index = 0;
+      for (let val of db) {
+        if (val.urlLink === itemUrl) {
+          db.splice(index, 1);
+          chrome.storage.local.set({ TAB_LIST: db });
+          break;
+        }
+        index++;
+      }
+    });
+  });
+  // context menu that can add page to bookmark without opening popup on right click
+});

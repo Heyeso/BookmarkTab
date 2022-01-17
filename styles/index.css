@@ -4,40 +4,48 @@ body {
   width: 400px;
   margin: 0;
   position: relative;
-  scroll-behavior: smooth;
+  overflow: hidden;
 }
 
+/* Container Styles */
 .container {
-  position: relative;
   font-family: "Montserrat", sans-serif;
   width: 100%;
   height: 100%;
-  background-color: #d6d6d6;
+  background-color: #fcfcfc;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
   color: #171717c0;
+  overflow-y: auto;
 }
+
+/* Search bar and Add Button Container */
 .container .content {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
   display: flex;
   height: fit-content;
   width: 100%;
   padding: 20px 10px 10px;
   box-sizing: border-box;
-  background-color: transparent;
+  background-color: #fcfcfc;
+  z-index: 100;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
+
+/* Search Bar Component */
 .search-comp {
   display: flex;
   align-items: center;
-  background-color: #fcfcfc;
+  background-color: white;
   height: 40px;
   border-radius: 7px;
   overflow: hidden;
   box-sizing: border-box;
   width: 100%;
-}
-.dark .search-comp {
-  background-color: #010101;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 .search-comp #input {
   background-color: transparent;
@@ -53,6 +61,8 @@ body {
   outline: none;
   background-color: transparent;
 }
+
+/* Icon */
 .icon {
   cursor: pointer;
   display: flex;
@@ -64,62 +74,64 @@ body {
 .icon:hover {
   background-color: #fff212;
 }
+/* Search button Icon component */
 #search-icon.icon svg {
   height: 35px;
   width: 35px;
 }
 #search-icon.icon svg * {
-  stroke: #171717;
+  stroke: #00afef;
 }
 
+/* Add button component */
 #add-icon.icon {
   border-radius: 7px;
   width: 40px;
   height: 40px;
   margin-left: 5px;
-  background-color: #fcfcfc;
+  background-color: white;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 #add-icon.icon:hover {
   background-color: #fff212;
 }
-#add-icon .icon svg {
-  height: 35px;
-  width: 35px;
-}
-#add-icon .icon svg * {
-  stroke: #171717;
+#add-icon.icon svg * {
+  stroke: #00afef;
 }
 
+/* Tab list Container */
 #tab-container {
   height: 100%;
   padding: 10px 10px 20px;
   box-sizing: border-box;
-  border-radius: 30px 0 0;
-  background-color: #fcfcfc;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
+
+/* Tab list Item */
 #tab-container .tab {
-  margin: 5px 0;
+  animation: fadein 0.5s ease-out;
   width: 100%;
   height: fit-content;
   padding: 10px 7px;
   box-sizing: border-box;
   border-radius: 7px;
-  background-color: #d6d6d6;
   display: flex;
   justify-content: center;
   align-items: center;
   color: #171717c0;
 }
-#tab-container .tab:hover .icon.delete {
-  background-color: #fcfc3d93;
+#tab-container .tab:hover {
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 #tab-container .tab img.logo {
-  height: 30px;
-  width: 30px;
+  height: 25px;
+  width: 25px;
   margin: 0 15px 0 0;
 }
+
+/* Tab body Component */
 #tab-container .tab .body {
   width: 100%;
   display: flex;
@@ -129,10 +141,12 @@ body {
   width: 100%;
   display: flex;
   flex-direction: column;
-  font-size: 18px;
-  margin: 0 0 5px;
+  font-size: 14px;
+  margin: 0;
+  letter-spacing: -0.7px;
 }
 #tab-container .tab .body .url {
+  cursor: pointer;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -140,42 +154,74 @@ body {
   text-decoration: none;
   color: #171717c0;
   font-weight: 600;
+  color: #00afef;
+}
+.break {
+  height: 1px;
+  width: 90%;
+  background-color: #fff212;
+  opacity: 0.5;
+  margin: 1px auto;
 }
 
+/* Delete button Component */
 .icon.delete {
+  width: 35px;
+  height: 35px;
   cursor: pointer;
+  border-radius: 7px;
   opacity: 0;
   background-color: transparent;
+  overflow: hidden;
+}
+#tab-container .tab .icon.delete:hover {
+  background-color: #fff212;
 }
 #tab-container .tab:hover .icon.delete {
-  background-color: transparent;
   opacity: 1;
-}
-
-#notification {
-  display: none;
-  width: fit-content;
-  height: fit-content;
-  box-sizing: border-box;
-  padding: 10px 7px;
-  color: #fcfcfc;
-  background-color: #d6d6d6;
 }
 /* scrollbar */
 /* width */
-.container .items::-webkit-scrollbar {
+.container::-webkit-scrollbar {
   width: 5px;
   padding: 5px;
 }
 /* Track */
-.container .items::-webkit-scrollbar-track {
+.container::-webkit-scrollbar-track {
   background: transparent;
 }
 /* Handle */
 .container .items::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.37);
+  background: #00afefc0;
 }
 /* Handle on hover */
-.container .items::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.747);
+.container::-webkit-scrollbar-thumb {
+  background: #00afefc0;
+}
+/* Handle on hover */
+.container::-webkit-scrollbar-thumb:hover {
+  background: #00afef;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
