@@ -19,6 +19,9 @@ body {
   color: #171717c0;
   overflow-y: auto;
 }
+.container.dark {
+  background-color: #171717;
+}
 
 /* Search bar and Add Button Container */
 .container .content {
@@ -35,6 +38,10 @@ body {
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
+.container.dark .content {
+  background-color: #171717;
+  box-shadow: rgb(32, 32, 32) 0px 7px 29px 0px;
+}
 /* Search Bar Component */
 .search-comp {
   display: flex;
@@ -47,6 +54,11 @@ body {
   width: 100%;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
+.dark .search-comp {
+  color: #fcfcfc;
+  background-color: black;
+  box-shadow: black 0px 7px 29px 0px;
+}
 .search-comp #input {
   background-color: transparent;
   color: #171717;
@@ -56,6 +68,9 @@ body {
   border: none;
   padding: 0 20px;
   font-family: "Montserrat", sans-serif;
+}
+.dark .search-comp #input {
+  color: #fcfcfc;
 }
 .search-comp #input:focus {
   outline: none;
@@ -92,6 +107,10 @@ body {
   background-color: white;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
+.dark #add-icon.icon {
+  background-color: black;
+  box-shadow: black 0px 7px 29px 0px;
+}
 #add-icon.icon:hover {
   background-color: #fff212;
 }
@@ -125,6 +144,12 @@ body {
 #tab-container .tab:hover {
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
+.dark #tab-container .tab {
+  color: #fcfcfc;
+}
+.dark #tab-container .tab:hover {
+  box-shadow: black 0px 8px 24px;
+}
 #tab-container .tab img.logo {
   height: 25px;
   width: 25px;
@@ -144,6 +169,9 @@ body {
   font-size: 14px;
   margin: 0;
   letter-spacing: -0.7px;
+}
+.dark #tab-container .tab .body .title {
+  font-weight: 400;
 }
 #tab-container .tab .body .url {
   cursor: pointer;

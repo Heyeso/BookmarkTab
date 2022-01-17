@@ -1,13 +1,9 @@
 //Format long strings to fit Tab Element Width
 const FormatLongStringURL = (str) =>
-str.length > 55
-    ? str.substring(0, 53) + "..."
-    : str;
+  str.length > 55 ? str.substring(0, 53) + "..." : str;
 
 const FormatLongString = (str) =>
-str.length > 40
-    ? str.substring(0, 36) + "..."
-    : str;
+  str.length > 40 ? str.substring(0, 36) + "..." : str;
 
 //Default Tab item for empty list
 const DEFAULT_TAB_ITEM = {
@@ -62,6 +58,10 @@ let RENDER_ITEM = (val) => {
 };
 
 $(document).ready(() => {
+  //Dark Mode
+  if (!(new Date().getHours() > 6 && new Date().getHours() < 18))
+    $(".container").addClass("dark");
+
   GET_STORAGE_ITEMS();
 
   // add tab to list
